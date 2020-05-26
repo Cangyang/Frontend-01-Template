@@ -1,6 +1,8 @@
 
 const net = require("net");
 const parser = require("./parser.js");
+const render = require("./render.js");
+const images = require("images");
 
 /* net.connect({
 	host: "127.0.0.1",
@@ -286,10 +288,8 @@ class ResponseParser {
 void async function(){
 	let request = new Request({
 		method: "GET",
-		//host: "127.0.0.1",
-		//port: 8099,
-		host: "http://124.126.19.106",
-		port: 54421,
+		host: "127.0.0.1",
+		port: 8099,
 		path: "/",
 		headers: {
 			"X-Foo": "test",
@@ -299,14 +299,16 @@ void async function(){
 			"b": 1999
 		}
 	});
-	console.log("=============request====================");
-	console.log(request.toString());
+	//console.log("=============request====================");
+	//console.log(request.toString());
 	let response =  await request.send();
-	console.log("==============response===================");
-	console.log(response);
+	//console.log("==============response===================");
+	//console.log(response);
 	let dom = parser.parseHTML(response.body);
-	console.log("==============dom===================");
-	// console.log(JSON.stringify(dom, null, " "));
+	//console.log("==============dom===================");
+	let viewport = images(800, 600);
+	render(viewport, dom);
+	viewport.save("viewport.jpg")
 }();
 
 
