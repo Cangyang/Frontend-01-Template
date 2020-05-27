@@ -1,3 +1,5 @@
+
+
 # 第七周学习总结
 
 ---
@@ -41,3 +43,91 @@ Cross: height y top bottom/ width x left right
   * 绘制在一个viewport上进行
   * 与绘制相关的属性：background-color、border、background-images等
 * 绘制DOM
+
+---
+
+## 0523 重学CSS | 总论
+
+1、CSS语法的研究
+
+* CSS2.1的语法
+
+  https://www.w3.org/TR/CSS21/grammar.html#q25.0
+
+  https://www.w3.org/TR/css-syntax-3
+
+* CSS总结结构
+
+  * @charset
+  * @import
+  * rules
+    * @media
+    * @page
+    * rule
+
+* CSS轶事
+
+  CDO、CDC指代`<!--` 和 `-->` ,因为古代浏览器不支持style标签，所有在style标签内使用html注释标签的格式来让CSS进行解析。
+
+2、CSS @规则的研究
+
+https://developer.mozilla.org/en-US/
+
+3、CSS规则的结构
+
+* 普通规则
+  * Selector
+    * https://www.w3.org/TR/selectors-3/
+    * https://www.w3.org/TR/selectors-4/
+  * Key
+    * Properties
+    * Variables: https://www.w3.org/TR/css-variables/（变量）
+  * Value（各种单位）
+    * https://www.w3.org/TR/css-values-4/
+
+4、初建CSS知识体系
+
+5、实验
+
+* 收集CSS标准
+
+```
+var st = document.getElementById("container").children;
+var cssStandard = [];
+for(var li of st){
+	if(li.getAttribute('data-tag').match(/css/)){
+		cssStandard.push({
+			name:li.children[1].innerText,
+			link:li.children[1].children[0].href
+		});
+	}
+}
+JSON.stringify(cssStandard,null, "    ");
+console.log(cssStandard);
+```
+
+```
+let iframe = document.createElement("iframe");
+document.body.innerHTML = "";
+document.body.appendChild(iframe);
+
+function happen(element, event){
+	return new Promise(function(resolve){
+		let handler = () => {
+			resolve();
+			element.removeEventListener(event, handler);
+		}
+		element.addEventListener(event, handler);
+	});
+}
+
+void async function(){
+	for(let standard of standards){
+		iframe.src = standard.link;
+		console.log(standard.name);
+		await happen(iframe, "load");
+	}
+}();
+
+```
+
