@@ -1,0 +1,121 @@
+<style>
+	div {
+		background-color: grey;
+		display: inline-block;
+		margin: 30px;
+		height: 100px;
+		width: 100px;
+		border-radius: 50px;
+	}
+	.green.light {
+		background-color: green;
+	}
+	.yellow.light {
+		background-color: yellow;
+	}
+	.red.light {
+		background-color: red;
+	}
+</style>
+<div class="green"></div>
+<div class="yellow"></div>
+<div class="red"></div>
+
+<button id="next">Next</button>
+<script>
+function green(){
+	var lights = document.getElementsByTagName("div");
+	for(var i = 0; i < 3; i ++){
+		lights[i].classList.remove("light");
+	}
+	document.getElementsByClassName("green")[0].classList.add("light");
+}
+function yellow(){
+	var lights = document.getElementsByTagName("div");
+	for(var i = 0; i < 3; i ++){
+		lights[i].classList.remove("light");
+	}
+	document.getElementsByClassName("yellow")[0].classList.add("light");
+}
+function red(){
+	var lights = document.getElementsByTagName("div");
+	for(var i = 0; i < 3; i ++){
+		lights[i].classList.remove("light");
+	}
+	document.getElementsByClassName("red")[0].classList.add("light");
+}
+
+function sleep(t) {
+	return new Promise((resolve, reject) => {
+		setTimeout(resolve, t);
+	})
+}
+
+function* g(){
+	yield 1;
+	yield 2;
+	yield 3;
+}
+
+function testG(){
+	var i = g();
+	while(s = i.next().value){
+		console.log(s);
+	}
+}
+
+function testG1(){
+	for(var v of g()){
+		console.log(v);
+	}
+}
+
+async function* ag(){
+	let i = 0;
+	while(true){
+		await sleep(1000);
+		yield i++;
+	}
+}
+
+async function testAG(){
+	for await(let v of ag()){
+		console.log(v);
+	}
+}
+
+
+function* go(){
+	while(true){
+		green();
+		yield sleep(1000);
+		yellow();
+		yield sleep(200);
+		red();
+		yield sleep(500);
+	}
+}
+
+function run(iterator){
+	let {value, done} = iterator.next();
+	if(done){
+		return;
+	}
+	if(value instanceof Promise){
+		value.then(() => {
+			run(iterator);
+		});
+	}
+}
+
+// run(g());
+
+function goTest(generator){
+	return function(){
+		return run(generator());
+	}
+}
+
+
+go = goTest(go);
+</script>

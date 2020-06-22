@@ -1,0 +1,33 @@
+<div id="a">
+	<span>1</span>
+	<p>2</p>
+	<a>3</a>
+	<div>4</div>
+</div>
+
+<div id="b">123<span style="background-color: pink;">456789</span>0123456789</div>
+<script>
+let element = document.getElementById("a");
+
+function reverseChildren(element){
+	let range = new Range();
+	range.selectNodeContents(element);
+	console.log("range",range);
+	let fragment = range.extractContents();
+	console.log("fragment",fragment);
+	var l = fragment.childNodes.length;
+	console.log("fragment",fragment.childNodes);
+	while(l-- > 0){
+		fragment.appendChild(fragment.childNodes[l]);
+	}
+	element.appendChild(fragment);
+}
+
+
+reverseChildren(element);
+
+let range = new Range();
+range.setStart(document.getElementById("b").childNodes[0], 3);
+range.setEnd(document.getElementById("b").childNodes[2], 6);
+//range.extractContents();
+</script>

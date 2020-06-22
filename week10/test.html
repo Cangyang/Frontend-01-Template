@@ -1,0 +1,14 @@
+<div id="a" style="width:100%;height:300px;background-color:lightblue;">
+	<div id="b" style="width:100%;height:200px;background-color:pink;"></div>
+</div>
+
+<script>
+var a = document.getElementById("a");
+var a = document.getElementById("b");
+// 捕获过程
+a.addEventListener("click", ()=>console.log("a"),true);
+b.addEventListener("click", ()=>console.log("b"),true);
+// 冒泡过程
+a.addEventListener("click", ()=>console.log("a2"),false);
+b.addEventListener("click", ()=>console.log("b2"),false);
+</script>

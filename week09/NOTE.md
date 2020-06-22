@@ -236,3 +236,32 @@ b.addEventListener("click", ()=>console.log("b2"),false);
 </script>
 ```
 
+1、浏览器API
+
+* DOM
+  * DOM Tree
+  * Events
+  * Range
+* BOM
+* CSSOM
+* Web Animation
+* Crypto
+
+2、EventTarget()
+
+target.addEventListener(type, listener [, options])
+
+target.addEventListener(type, listener [, useCapture])
+
+target.addEventListener(type, listener [, useCapture, wantsUntrusted])
+
+```
+document.body.addEventListener("click", {handleEvent: function(){ console.log("click me"); }});
+```
+
+* 捕获与冒泡
+  * 捕获capture指的是判定事件是谁的，从最外层元素向内搜索
+  * 冒泡指的是元素的事件执行从内到外执行
+  * 从逻辑上将，通常事件的执行是先捕获再冒泡
+  * useCapture为true时表示是捕获过程，从外向内执行
+  * useCapture为false时表示是冒泡过程，从内向外执行
