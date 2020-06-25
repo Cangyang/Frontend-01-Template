@@ -13,3 +13,37 @@
 
 2、寻路问题
 
+
+
+## 0620学习总结 | 正则表达式
+
+1、正则相关的API
+
+* match
+
+  ```
+  "[a=value]".match(/\[([^=]+)=([^\]]+)\]/)
+  ```
+
+* replace
+
+  ```
+  "abc".replace(/a(b)c/, function(str, $1){
+  	console.log(str, $1);
+  	return $1 + $1;
+  });
+  
+  "abc".replace(/a(b)c/, "$1$1");
+  ```
+
+  
+
+2、分组捕获与不捕获
+
+* ()捕获
+* (?:)不捕获
+
+3、正则RegExp中的方法
+
+* exec
+* lastIndex
