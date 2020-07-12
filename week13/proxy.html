@@ -1,0 +1,117 @@
+<input id="test" type=range min=0 max=255>
+<input id="test1" type=range min=0 max=255>
+<input id="test2" type=range min=0 max=255>
+
+<div id="color" style="height:500px;width:500px; border-radius: 250px;"></div>
+<script>
+
+let handlers = new Map();
+let reactivities = new Map();
+
+let usedReactivities = [];
+
+let object = {
+	a: 1,
+	b: 2
+}
+
+function reactive(obj){
+	if(reactivities.has(obj)){
+		return reactivities.get(obj);
+	}
+	let proxy = new Proxy(obj,{
+		get(obj, prop){
+			usedReactivities.push([obj, prop]);
+			// 深度遍历
+			if(typeof obj[prop] === "object"){
+				return reactive(obj[prop]);
+			}
+			return obj[prop];
+		},
+		set(obj, prop, val){
+			obj[prop] = val;
+			if(handlers.get(obj)){
+				if(handlers.get(obj).get(prop)){
+					for(let handler of handlers.get(obj).get(prop)){
+						handler();
+					}
+				}
+			}
+			return obj[prop];
+		}
+	})
+	
+	reactivities.set(obj, proxy);
+	reactivities.set(proxy, proxy);
+	return proxy;
+}
+
+function effect(handler){
+	usedReactivities = [];
+	handler();
+	//console.log(usedReactivities)
+	for(let usedReactivity of usedReactivities){
+		let [obj, prop] = usedReactivity;
+		//console.log([obj, prop]);
+		if(!handlers.has(obj)){
+			handlers.set(obj, new Map())
+		}
+		if(!handlers.get(obj).has(prop)){
+			handlers.get(obj).set(prop, []);
+		}
+		handlers.get(obj).get(prop).push(handler);
+	}
+}
+
+let proxy = reactive(object);
+
+<!-- let dummy; -->
+<!-- effect(() => dummy = proxy.a); -->
+<!-- console.log(dummy) -->
+<!-- proxy.a = 3; -->
+<!-- console.log(dummy) -->
+
+let v12, v1, v2;
+let p1 = reactive({a:1});
+let p2 = reactive({a:2});
+effect(() => v12 = p1.a + p2.a);
+effect(() => v1 = p1.a);
+effect(() => v2 = p2.a);
+
+let v;
+let pp = reactive({a:{b:1}});
+effect(() => v = pp.a.b);
+console.log(v);
+pp.a.b = 3;
+console.log(v);
+//Object.defineProperty(proxy,"a",{value:10})
+
+let p =reactive({test:10, test1:50, test2:100});
+// 单向绑定
+effect(() => {
+	document.getElementById("test").value = p.test;
+})
+effect(() => {
+	document.getElementById("test1").value = p.test1;
+})
+effect(() => {
+	document.getElementById("test2").value = p.test2;
+})
+// 双向绑定
+document.getElementById("test").addEventListener("input", event => {
+	p.test = event.target.value;
+	console.log("p.test=",p.test)
+})
+document.getElementById("test1").addEventListener("input", event => {
+	p.test1 = event.target.value;
+	console.log("p.test1=",p.test1)
+})
+document.getElementById("test2").addEventListener("input", event => {
+	p.test2 = event.target.value;
+	console.log("p.test2=",p.test2)
+})
+
+effect(() => {
+	document.getElementById("color").style.backgroundColor = `rgb(${p.test}, ${p.test1}, ${p.test2})`;
+})
+</script>
