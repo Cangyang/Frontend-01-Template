@@ -1,0 +1,11 @@
+<input value="cute" />
+<script>
+// 若property 没有设置，则结果是attribute
+var input = document.getElementsByTagName('input')[0];
+console.log("input.value=",input.value); // cute
+console.log("input.getAttribute('value')=",input.getAttribute('value')); // cute
+// 若value 属性已经设置，则attribute不变，property变化
+input.value = 'hello';
+console.log("input.value=",input.value); // hello
+console.log("input.getAttribute('value')=",input.getAttribute('value')); // cute
+</script>

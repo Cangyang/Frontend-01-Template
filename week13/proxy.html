@@ -3,6 +3,8 @@
 <input id="test2" type=range min=0 max=255>
 
 <div id="color" style="height:500px;width:500px; border-radius: 250px;"></div>
+
+<div id="text">Hello {{name}}!</div>
 <script>
 
 let handlers = new Map();
@@ -114,4 +116,13 @@ document.getElementById("test2").addEventListener("input", event => {
 effect(() => {
 	document.getElementById("color").style.backgroundColor = `rgb(${p.test}, ${p.test1}, ${p.test2})`;
 })
+
+let range = document.createRange();
+range.setStart(document.getElementById("text").childNodes[0], 6);
+range.setEnd(document.getElementById("text").childNodes[0], 14);
+let data = reactive({text:"Alex"});
+effect(() => {
+	range.extractContents();
+	range.insertNode(document.createTextNode(data.text));
+});
 </script>

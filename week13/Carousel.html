@@ -1,0 +1,29 @@
+<script>
+
+Carousel
+
+	state
+		activeIndex
+
+	property
+		loop time imglist autoplay color forward
+
+	attribute
+		startIndex
+
+	children
+		2
+	event
+		change click hover swipe resize dbclick
+	method
+		next() prev() goto()
+		play() stop()
+	config
+		mode: "useRAF","useTimeout"
+		setInterval(tick, 16)
+		setTimeout()
+		requestAnimationFrame
+CarouselView
+
+
+</script>
