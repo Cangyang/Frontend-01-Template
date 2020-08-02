@@ -1,0 +1,61 @@
+<style>
+#draggable{
+	transform:translate(0px,0px);
+	width: 100px;
+	height: 100px;
+	background-color: skyblue;
+}
+</style>
+<body>
+	<div id="draggable"></div>
+</body>
+<script src="./gesture.js"></script>
+
+<script>
+// 禁掉鼠标右键菜单
+document.addEventListener("contextmenu", event => event.preventDefault());
+// 长按复制文字
+document.addEventListener("selectstart", event => event.preventDefault());
+
+document.addEventListener("touchmove", event => event.preventDefault(), {passive:false});
+
+
+
+let x = 0, y = 0;
+
+let draggable = document.getElementById("draggable");
+enableGesture(draggable);
+draggable.addEventListener("pan", event => {
+	//console.log(x + event.clientX - event.startX, y + event.clientY - event.startY);
+	draggable.style.transform = `translate(${x + event.clientX - event.startX}px, ${y + event.clientY - event.startY}px)`;
+})
+
+draggable.addEventListener("panstart", event => {
+	console.log("panstart: ", x + event.clientX - event.startX, y + event.clientY - event.startY);
+	draggable.style.transform = `translate(${x + event.clientX - event.startX}px, ${y + event.clientY - event.startY}px)`;
+})
+
+draggable.addEventListener("panend", event => {
+	console.log("panend: ",x + event.clientX - event.startX, y + event.clientY - event.startY);
+	draggable.style.transform = `translate(${x + event.clientX - event.startX}px, ${y + event.clientY - event.startY}px)`;
+})
+
+<!-- draggable.addEventListener("panstart", event => { -->
+	<!-- console.log("panstart"); -->
+<!-- }) -->
+
+
+
+<!-- draggable.addEventListener("flick", event => { -->
+	<!-- console.log("flick"); -->
+<!-- }) -->
+
+<!-- draggable.addEventListener("pressstart", event => { -->
+	<!-- console.log("pressstart"); -->
+<!-- }) -->
+
+<!-- draggable.addEventListener("pressend", event => { -->
+	<!-- console.log("pressend"); -->
+<!-- }) -->
+
+</script>
