@@ -2,6 +2,7 @@ import {createEle, Text, Wrapper} from './createEle';
 import {ease} from './cubicBezier';
 import {Timeline,Animation} from './animation';
 import {enableGesture} from './gesture.js';
+import css from "./carousel.css";
 
 
 

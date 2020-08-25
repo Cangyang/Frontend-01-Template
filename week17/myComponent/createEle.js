@@ -63,6 +63,9 @@ export class Wrapper{
 			enableGesture(this.root);
 		}
 	}
+	getAttribute(name){
+		return this.root.getAttribute(name);
+	}
 	mountTo(parent){
 		parent.appendChild(this.root);
 		for(let child of this.children){
@@ -82,8 +85,8 @@ export class Wrapper{
 	get style(){
 		return this.root.style;
 	}
-	set innerText(text){
-		return this.root.innerText = text;
+	get classList(){
+		return this.root.classList;
 	}
 }
 
